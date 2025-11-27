@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 
-// Set the default URL for your FastAPI backend
 axios.defaults.baseURL = "http://localhost:8000";
 
 export function ChatbotPage() {
@@ -39,24 +38,29 @@ export function ChatbotPage() {
 
   return (
     <main>
-      <h1>Robert Chatbot</h1>
+      <h1>💬 Robert Chatbot</h1>
       
       <div>
         <h2>Conversation</h2>
-        {messages.map((message, index) => (
-          <div key={index}>
-            <strong>{message.role === "user" ? "You" : "Assistant"}:</strong> {message.content}
-          </div>
-        ))}
+        <div className="conversation">
+          {messages.map((message, index) => (
+            <div 
+              key={index} 
+              className={`message ${message.role === "user" ? "user-message" : "assistant-message"}`}
+            >
+              <strong>{message.role === "user" ? "You" : "Assistant"}:</strong> {message.content}
+            </div>
+          ))}
+        </div>
       </div>
 
       <div>
         <h2>Send a message</h2>
         <form onSubmit={handleSubmit}>
-          <div>
+          <div className="input-area">
             <input name="message" type="text" placeholder="Type your message..." />
+            <button type="submit">Send</button>
           </div>
-          <button type="submit">Send</button>
         </form>
       </div>
     </main>
