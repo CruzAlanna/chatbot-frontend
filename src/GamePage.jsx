@@ -1,72 +1,104 @@
 import axios from "axios";
 import { useState } from "react";
 
-// Backend URL
 axios.defaults.baseURL = "http://localhost:8000";
 
 export function GamePage() {
   const [messages, setMessages] = useState([]);
-  const [scenarioId] = useState("user-" + Date.now());
+  const [scenarioId, setScenarioId] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [nextScenarioId, setNextScenarioId] = useState(null);
 
   const handleSendMessage = (params, successCallback = () => {}) => {
-    console.log("handleSendMessage", params);
-
-    // Add user message (if user actually typed something)
-    if (params.message !== "start") {
-      const userMessage = { role: "user", content: params.message };
-      setMessages((prevMessages) => [...prevMessages, userMessage]);
-    }
-
-    // Send to the API
     axios.post("/play", params)
       .then((response) => {
-        console.log(response.data);
+        const data = response.data;
 
+        // Add assistant response
         const assistantMessage = {
           role: "assistant",
-          content: response.data.message,
+          content: data.message,
         };
-
         setMessages((prev) => [...prev, assistantMessage]);
+
+        // Update scenario info
+        setScenarioId(data.scenario_id);
+
+        // If the game has finished (after 5 rounds)
+        if (data.game_over) {
+          setGameOver(true);
+          setNextScenarioId(data.next_scenario_id);
+        }
+
         successCallback();
       })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+      .catch((err) => console.error("Error:", err));
   };
 
+
+  // Start the game
   const handleStart = () => {
     setGameStarted(true);
+    setGameOver(false);
+    setMessages([]);
 
-    // Send the initial "start" signal
-    handleSendMessage(
-      {
-        message: "start",
-        scenario_id: scenarioId,
-      }
-    );
+    // Send initial "start" message
+    handleSendMessage({
+      message: "start",
+      scenario_id: "new"
+    });
   };
 
+
+  // Send a regular round message
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const formData = new FormData(event.target);
-    const message = formData.get("message");
+
+    const msg = formData.get("message");
+
+    setMessages((prev) => [...prev, { role: "user", content: msg }]);
 
     handleSendMessage(
       {
-        message,
+        message: msg,
         scenario_id: scenarioId,
       },
       () => event.target.reset()
     );
   };
 
+
+  // Handle "Play Again"
+  const handlePlayAgain = () => {
+    setMessages([]);
+    setGameOver(false);
+    setScenarioId(nextScenarioId);
+
+    // Restart immediately using given nextScenarioId
+    handleSendMessage({
+      message: "start",
+      scenario_id: nextScenarioId,
+    });
+  };
+
+
+  // Handle "Exit"
+  const handleExit = () => {
+    setMessages([]);
+    setGameStarted(false);
+    setGameOver(false);
+    setScenarioId(null);
+    setNextScenarioId(null);
+  };
+
+
   return (
     <main>
       <h1>SURVIVAL</h1>
 
+      {/* Messages */}
       <div>
         <h2>Would you survive the end of the world??</h2>
 
@@ -85,15 +117,17 @@ export function GamePage() {
         </div>
       </div>
 
-      {/* Before starting, show only the start button */}
+
+      {/* BEFORE GAME STARTS */}
       {!gameStarted && (
         <div style={{ marginTop: "20px" }}>
           <button onClick={handleStart}>Start Game</button>
         </div>
       )}
 
-      {/* After starting, show text input */}
-      {gameStarted && (
+
+      {/* DURING GAME — BUT NOT GAME OVER */}
+      {gameStarted && !gameOver && (
         <div>
           <h2>Send a message</h2>
           <form onSubmit={handleSubmit}>
@@ -107,6 +141,18 @@ export function GamePage() {
               <button type="submit">Send</button>
             </div>
           </form>
+        </div>
+      )}
+
+
+      {/* GAME OVER → Play Again or Exit */}
+      {gameOver && (
+        <div style={{ marginTop: "20px" }}>
+          <h2>Game Over</h2>
+          <button onClick={handlePlayAgain} style={{ marginRight: "10px" }}>
+            Play Again
+          </button>
+          <button onClick={handleExit}>Exit</button>
         </div>
       )}
     </main>
