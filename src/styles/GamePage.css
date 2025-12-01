@@ -1,0 +1,21 @@
+/* src/styles/GamePage.css */
+.game-container {
+  width: 95%;
+  max-width: 750px;
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 25px;
+  border-radius: 12px;
+  color: white;
+}
+
+.game-title {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 28px;
+}
+
+.game-round {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 10px;
+}

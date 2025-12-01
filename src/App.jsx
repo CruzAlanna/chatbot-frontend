@@ -1,5 +1,5 @@
-import { ChatbotPage } from "./ChatbotPage";
-import { GamePage } from "./GamePage";
+// import { ChatbotPage } from "./ChatbotPage";
+import GamePage from "./pages/GamePage";
 
 function App() {
   return (

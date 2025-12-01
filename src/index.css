@@ -1,5 +1,3 @@
-
-
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background: linear-gradient(135deg, #f4caca 0%, #ff6e2b87 100%);
@@ -18,7 +16,7 @@ main {
 }
 
 h1 {
-  color: #000000ce;
+  color: #ffffffce;
   text-align: center;
   margin-top: 0;
   font-size: 2em;

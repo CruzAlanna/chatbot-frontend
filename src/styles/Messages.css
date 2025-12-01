@@ -1,0 +1,21 @@
+/* src/styles/Messages.css */
+.message-bubble {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  max-width: 80%;
+}
+
+.message-bubble.user {
+  background-color: #3b3b3b;
+  align-self: flex-end;
+}
+
+.message-bubble.assistant {
+  background-color: #1f1f1f;
+  align-self: flex-start;
+}
+
+.message-text {
+  margin-top: 6px;
+}

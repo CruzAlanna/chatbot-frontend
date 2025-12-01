@@ -1,0 +1,17 @@
+/* src/styles/ChatWindow.css */
+.chat-box {
+  height: 400px;
+  overflow-y: auto;
+  background: #111;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.typing-indicator {
+  color: #999;
+  font-style: italic;
+  margin-top: 5px;
+}

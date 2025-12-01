@@ -1,0 +1,64 @@
+/* src/styles/Controls.css */
+.input-container {
+  display: flex;
+  margin-top: 15px;
+}
+
+.input-container input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+}
+
+.input-container button {
+  padding: 10px 15px;
+  background-color: #e67e22;
+  color: white;
+  border: none;
+  margin-left: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.start-button {
+  width: 100%;
+  padding: 14px;
+  background-color: #27ae60;
+  color: white;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.game-over-button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  background-color: #2980b9;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.choice-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.choice-container button {
+  flex: 1 1 45%;
+  padding: 12px;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
